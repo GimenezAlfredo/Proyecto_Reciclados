@@ -9,7 +9,18 @@ export const validateRegister = [
         if (!errors.isEmpty()) {
             return res.status(400).json({ errors: errors.array() })
         }
-        console.log("error en el validador");
+        next()
+    }
+]
+
+export const validateRegisterEdit = [
+    body('nombre').isLength({ min: 4 }).withMessage('El nombre de usuario debe tener al menos 4 caracteres.'),
+    body('email').isEmail().withMessage('Email no válido.'),
+    (req, res, next) => {
+        const errors = validationResult(req)
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() })
+        }
         next()
     }
 ]

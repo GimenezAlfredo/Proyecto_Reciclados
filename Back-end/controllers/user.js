@@ -1,7 +1,7 @@
 import { connection } from "../db.js"
 import util from 'util'
 import bycrpt from 'bcrypt'
-import { validateRegister } from "../middlewares/validateUser.js"
+import { validateRegister, validateRegisterEdit } from "../middlewares/validateUser.js"
 
 const query = util.promisify(connection.query).bind(connection)
 
@@ -56,5 +56,42 @@ export const showUser = async (req, res) => {
 
     catch (error) {
         res.status(500).json({message: error.message})
+    }
+}
+
+export const editUser = [validateRegisterEdit, async (req, res) => {
+
+    try {
+
+        const {id} = req.params
+
+        console.log(id)
+
+        // let {nombre, apellido, email, telefono, fecha_nacimiento} = req.body
+
+        // const userInputs = {nombre, apellido, email, telefono, fecha_nacimiento}
+
+        const userInputs = [req.body.nombre, req.body.apellido, req.body.email, req.body.telefono, req.body.fecha_nacimiento]
+
+        const queryUpdate = 'UPDATE usuario SET `nombre` = ?, `apellido` = ?, `email` = ?, `telefono` = ?, `fecha_nacimiento` = ? WHERE `idusuario` = ?'
+
+        await query(queryUpdate, [...userInputs,id])
+
+        res.status(200).json("Usuario actualizado correctamente")
+    }
+    catch (error) {
+        res.status(500).json({message: error.message})    
+    }
+}]
+
+export const deleteUser = async (req, res) => {
+    try {
+        const {id} = req.params
+        await query('UPDATE usuario SET `rol_idrol` = ? WHERE idusuario = ?', [5, id]);
+        // res.redirect('/list')
+        res.status(200).json("Usuario borrado")
+    }
+    catch (error) {
+        res.status(500).json({message:error.message})    
     }
 }
