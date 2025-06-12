@@ -15,6 +15,9 @@ app.use(express.json())
 app.use(cors({origin :'*',}))
 app.use(cookieParser())
 
+app.use('/api/user', userRoutes)
+
 const PORT = 3000
-app.listen(PORT, ()=>
-    {console.log(`Servidor corriendo amigo en ${PORT}`)})
+app.listen(PORT, () => {
+    console.log(`Servidor corriendo amigo en http://localhost:${PORT}`)
+})
