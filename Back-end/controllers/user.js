@@ -1,7 +1,7 @@
-import { connection } from "../db"
+import { connection } from "../db.js"
 import util from 'util'
-import bycrpt from 'bcryptjs'
-import { validateRegister } from "../middlewares/validateUser"
+import bycrpt from 'bcrypt'
+import { validateRegister } from "../middlewares/validateUser.js"
 
 const query = util.promisify(connection.query).bind(connection)
 
