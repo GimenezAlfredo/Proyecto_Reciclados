@@ -32,3 +32,29 @@ export const createUser = [validateRegister, async(req, res) =>{
         res.status(500).json({message:error.message})
     }
 }]
+
+export const showUser = async (req, res) => {
+
+    try {
+        const queryListUsers =
+    `SELECT 
+        u.nombre,
+        u.apellido,
+        u.email,
+        u.telefono,
+        u.fecha_nacimiento,
+        r.descripcion AS nombre_rol,
+        m.descripcion AS nombre_municipio
+    FROM usuario u
+    JOIN rol r ON u.rol_idrol = r.idrol
+    JOIN municipio m ON u.municipio_idmunicipio = m.idmunicipio;`
+
+    const userList = await query(queryListUsers)
+
+    res.status(200).json(userList)
+    }
+
+    catch (error) {
+        res.status(500).json({message: error.message})
+    }
+}
