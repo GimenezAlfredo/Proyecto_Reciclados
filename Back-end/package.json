@@ -1,26 +1,36 @@
 {
-  "dependencies": {
-    "bcrypt": "^6.0.0",
-    "cookie-parser": "^1.4.7",
-    "cors": "^2.8.5",
-    "D": "^1.0.0",
-    "dotenv": "^16.5.0",
-    "express": "^5.1.0",
-    "jsonwebtoken": "^9.0.2",
-    "mysql2": "^3.14.1",
-    "nodemon": "^3.1.10"
-  },
-  "name": "back-end",
+  "name": "proyecto_reciclados",
   "version": "1.0.0",
+  "type":"module",
   "main": "index.js",
-  "devDependencies": {},
   "scripts": {
-    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
     "dev" : "nodemon index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GimenezAlfredo/Proyecto_Reciclados.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": ""
+  "bugs": {
+    "url": "https://github.com/GimenezAlfredo/Proyecto_Reciclados/issues"
+  },
+  "homepage": "https://github.com/GimenezAlfredo/Proyecto_Reciclados#readme",
+  "description": "",
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "express-validator": "^7.2.1",
+    "mysql2": "^3.14.1",
+    "util": "^0.12.5"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
 }
