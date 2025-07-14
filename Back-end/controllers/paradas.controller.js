@@ -1,11 +1,11 @@
-import { connection } from '../db.js'
+import { obtenerParadasDB } from '../models/paradas.model.js'
 
 export const getParadas = async (req, res) => {
   try {
-    const [rows] = await connection.query('SELECT idusuario, nombre, latitud, longitud FROM usuario')
-    res.json(rows)
+    const paradas = await obtenerParadasDB()
+    res.json(paradas)
   } catch (err) {
-    console.error('Error al hacer query:', err.message)
+    console.error('Error al obtener paradas:', err.message)
     res.status(500).json({ message: 'Error al obtener las coordenadas' })
   }
 }
