@@ -3,7 +3,7 @@ import { prepararGruposParaRutas } from '../utils/agrupadorRutas.js'
 
 export async function obtenerParadasAgrupadas() {
   try {
-    const { data } = await axios.get('http://192.168.1.39:3000/api/paradas')
+    const { data } = await axios.get('http://192.168.1.7:3000/api/paradas')
 
     const paradasValidas = data
       .filter(p =>
