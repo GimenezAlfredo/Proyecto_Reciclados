@@ -1,32 +1,54 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, SafeAreaView, StatusBar } from 'react-native';
+import {
+  View, Text, TextInput, TouchableOpacity, StyleSheet,
+  SafeAreaView, StatusBar, Alert
+} from 'react-native';
+import { loginUsuario } from '../api/login.js'; 
+import { useNavigation } from '@react-navigation/native';
 
 export default function LoginScreen({ route }) {
   const { municipio } = route.params;
-  const [usuario, setUsuario] = useState('');
-  const [contrasena, setContrasena] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const navigation = useNavigation();
+
+  const handleLogin = async () => {
+    if (!email || !password) {
+      Alert.alert('Campos requeridos', 'Por favor ingrese email y contraseña.');
+      return;
+    }
+
+    const response = await loginUsuario(email, password);
+
+    if (response.ok) {
+      Alert.alert('Bienvenido', response.data.message);
+      navigation.navigate('HomeScreen'); // o la pantalla que desees
+    } else {
+      Alert.alert('Error', response.mensaje);
+    }
+  };
 
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor="#87CEEB" />
-    <Text style={styles.titulo}>Municipio seleccionado:</Text>
-    <Text style={styles.municipio}>{municipio.label}</Text>
-
+      <Text style={styles.titulo}>Municipio seleccionado:</Text>
+      <Text style={styles.municipio}>{municipio.label}</Text>
 
       <TextInput
-        placeholder="Nombre de usuario"
-        value={usuario}
-        onChangeText={setUsuario}
+        placeholder="Correo electrónico"
+        value={email}
+        onChangeText={setEmail}
+        autoCapitalize="none"
         style={styles.input}
       />
       <TextInput
         placeholder="Contraseña"
-        value={contrasena}
-        onChangeText={setContrasena}
+        value={password}
+        onChangeText={setPassword}
         secureTextEntry
         style={styles.input}
       />
-      <TouchableOpacity style={styles.boton}>
+      <TouchableOpacity style={styles.boton} onPress={handleLogin}>
         <Text style={styles.botonTexto}>Entrar</Text>
       </TouchableOpacity>
     </SafeAreaView>
