@@ -9,25 +9,21 @@ import municipiosRoutes from './routes/municipios.routes.js';
 dotenv.config()
 
 const app = express()
-app.use(cors())
+
+//cors bien configurado
+app.use(cors({
+  origin: 'http://localhost:5173',
+  credentials: true
+}));
+
 app.use(express.json())
 app.use(cookieParser())
 
-// Middleware
-app.use(cors({
-  origin: 'http://localhost:5173', // front
-  credentials: true // uso de cookies
-}));
-
-
-app.use('/api/user', loginRoutes);
-
+app.use('/api/user', loginRoutes)
 app.use('/api/paradas', paradasRoutes)
-
-app.use('/api', municipiosRoutes); 
+app.use('/api', municipiosRoutes)
 
 const PORT = process.env.PORT || 3000
 app.listen(PORT, () => {
   console.log(`Servidor backend corriendo en el puerto ${PORT}`)
 })
-

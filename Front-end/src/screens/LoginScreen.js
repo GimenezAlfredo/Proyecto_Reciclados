@@ -18,14 +18,19 @@ export default function LoginScreen({ route }) {
       return;
     }
 
+  try {
     const response = await loginUsuario(email, password);
+        console.log('Respuesta del login:', response); // 👈 LOG COMPLETO
 
     if (response.ok) {
-      Alert.alert('Bienvenido', response.data.message);
-      navigation.navigate('HomeScreen'); // o la pantalla que desees
+      Alert.alert('Bienvenido', response.mensaje);
+      navigation.navigate('HomeScreen'); 
     } else {
-      Alert.alert('Error', response.mensaje);
-    }
+      Alert.alert('Error', response.mensaje || 'Error desconocido');
+    } } catch (error) {
+    console.error('ERROR GENERAL:', error); // 👈 Error inesperado
+    Alert.alert('Error inesperado', 'Ocurrió un problema al intentar iniciar sesión');
+  }
   };
 
   return (
