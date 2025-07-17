@@ -2,9 +2,9 @@ import express from 'express'
 import cors from 'cors'
 import dotenv from 'dotenv'
 import cookieParser from 'cookie-parser'
-import loginRoutes from './routes/loginRoutes.js';
-import paradasRoutes from './routes/paradas.routes.js'
-import municipiosRoutes from './routes/municipios.routes.js';
+import loginRoutes from './routes/login-routes.js';
+import paradasRoutes from './routes/paradas-routes.js'
+import municipiosRoutes from './routes/municipios-routes.js';
 
 dotenv.config()
 

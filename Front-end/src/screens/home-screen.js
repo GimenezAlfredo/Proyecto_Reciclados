@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { View, Button, ScrollView, StyleSheet } from 'react-native'
 import { obtenerParadasAgrupadas } from '../api/paradas.js'
-import MapaRutas from '../components/MapaRutas.js'
+import MapaRutas from '../components/mapa-rutas.js'
 
 export default function HomeScreen() {
   const [rutas, setRutas] = useState([])

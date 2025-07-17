@@ -20,8 +20,6 @@ export default function LoginScreen({ route }) {
 
   try {
     const response = await loginUsuario(email, password);
-        console.log('Respuesta del login:', response); // 👈 LOG COMPLETO
-
     if (response.ok) {
       Alert.alert('Bienvenido', response.mensaje);
       navigation.navigate('HomeScreen'); 

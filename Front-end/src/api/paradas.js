@@ -1,10 +1,10 @@
 import axios from 'axios'
-import { prepararGruposParaRutas } from '../utils/agrupadorRutas.js'
+import { prepararGruposParaRutas } from '../utils/agrupador-rutas.js'
+import { API_URL } from '../../ip-config.js'; // ruta relativa según tu estructura
 
 export async function obtenerParadasAgrupadas() {
   try {
-    const { data } = await axios.get('http://192.168.1.35:3000/api/paradas')
-
+     const { data }  = await axios.get(`${API_URL}/paradas`)
     const paradasValidas = data
       .filter(p =>
         parseFloat(p.latitud) >= -30 && parseFloat(p.latitud) <= -25 &&

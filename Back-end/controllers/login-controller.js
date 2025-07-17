@@ -4,19 +4,15 @@ import jwt from 'jsonwebtoken';
 
 export const loginUser = async (req, res) => {
   try {
-    console.log('🟨 Body recibido:', req.body);
     const { email, password } = req.body;
-    console.log('🟡 Email recibido:', email);
 
     const [results] = await connection.query('SELECT * FROM usuario WHERE email = ?', [email]);
-    console.log('🔎 Resultado SQL:', results);
 
     if (results.length === 0) {
       return res.status(401).json({ message: 'Usuario no encontrado' });
     }
 
     const user = results[0];
-    console.log('✅ Usuario encontrado:', user.email);
 
     const isMatch = await bcrypt.compare(password, user.password);
 
@@ -24,8 +20,6 @@ export const loginUser = async (req, res) => {
       return res.status(401).json({ message: 'Contraseña incorrecta' });
     }
 
-    console.log('✅ Contraseña válida');
-    console.log('🔐 Clave secreta:', process.env.JWT_SECRET);
 
     const token = jwt.sign(
     { id: user.idusuario, email: user.email },
@@ -41,7 +35,6 @@ export const loginUser = async (req, res) => {
       maxAge: 24 * 60 * 60 * 1000
     });
 
-    console.log('✅ Token generado:', token);
     res.json({ message: 'Login exitoso', token });
 
   } catch (err) {

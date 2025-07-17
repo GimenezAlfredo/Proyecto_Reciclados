@@ -1,4 +1,4 @@
-import { obtenerMunicipiosDB } from '../models/municipios.model.js';
+import { obtenerMunicipiosDB } from '../models/municipios-model.js';
 
 export const getMunicipios = async (req, res) => {
   try {

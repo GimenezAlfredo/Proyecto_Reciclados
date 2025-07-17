@@ -1,9 +1,9 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import SeleccionMunicipio from './src/screens/SeleccionMunicipio';
-import LoginScreen from './src/screens/LoginScreen';
-import HomeScreen from './src/screens/HomeScreen'; 
+import SeleccionMunicipio from './src/screens/seleccion-municipio';
+import LoginScreen from './src/screens/login-screen';
+import HomeScreen from './src/screens/home-screen'; 
 
 const Stack = createNativeStackNavigator();
 

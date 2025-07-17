@@ -1,4 +1,4 @@
-import { obtenerParadasDB } from '../models/paradas.model.js'
+import { obtenerParadasDB } from '../models/paradas-model.js'
 
 export const getParadas = async (req, res) => {
   try {

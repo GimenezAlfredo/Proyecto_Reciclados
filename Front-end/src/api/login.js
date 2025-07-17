@@ -1,6 +1,5 @@
 import axios from 'axios';
-
-const API_URL = 'http://192.168.1.35:3000/api';
+import { API_URL } from '../../ip-config.js'; // ruta relativa según tu estructura
 
 export const loginUsuario = async (email, password) => {
   try {
