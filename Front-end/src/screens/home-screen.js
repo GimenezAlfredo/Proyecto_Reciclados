@@ -1,52 +1,20 @@
-import React, { useState } from 'react'
-import { View, Button, ScrollView, StyleSheet } from 'react-native'
-import { obtenerParadasAgrupadas } from '../api/paradas.js'
-import MapaRutas from '../components/mapa-rutas.js'
+import React from 'react';
+import { View, Text, Button, StyleSheet } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 export default function HomeScreen() {
-  const [rutas, setRutas] = useState([])
-  const [rutaSeleccionada, setRutaSeleccionada] = useState(null)
-  const [mostrarMapa, setMostrarMapa] = useState(false)
-
-  const manejarVerRutas = async () => {
-    const rutasObtenidas = await obtenerParadasAgrupadas()
-    setRutas(rutasObtenidas)
-    setMostrarMapa(true)
-  }
-
-  const seleccionarRuta = (index) => {
-    setRutaSeleccionada(index)
-  }
+  const navigation = useNavigation();
 
   return (
     <View style={styles.container}>
-      {!mostrarMapa ? (
-        <Button title="Ver rutas disponibles" onPress={manejarVerRutas} />
-      ) : (
-        <>
-          <ScrollView horizontal style={styles.selector}>
-            {rutas.map((_, i) => (
-              <Button key={i} title={`Ruta ${i + 1}`} onPress={() => seleccionarRuta(i)} />
-            ))}
-          </ScrollView>
-
-          <MapaRutas
-            rutas={rutas}
-            rutaSeleccionada={rutaSeleccionada}
-          />
-        </>
-      )}
+      <Text style={styles.title}>Bienvenido a la App de Reciclaje</Text>
+      <Button title="Iniciar sesión" onPress={() => navigation.navigate('Login')} />
+      <Button title="Registrarse" onPress={() => navigation.navigate('Register')} />
     </View>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  selector: {
-    backgroundColor: '#eee',
-    padding: 5,
-    maxHeight: 50,
-  },
-})
+  container: { flex: 1, justifyContent: 'center', alignItems: 'center' },
+  title: { fontSize: 24, marginBottom: 20 },
+});

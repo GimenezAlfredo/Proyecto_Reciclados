@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { API_URL } from '../../ip-config.js'; // ruta relativa según tu estructura
+import { API_URL } from '../../ip-config.js'; 
 
 export const obtenerMunicipios = async () => {
   try {

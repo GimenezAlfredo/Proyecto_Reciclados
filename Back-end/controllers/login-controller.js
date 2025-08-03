@@ -8,6 +8,7 @@ export const loginUser = async (req, res) => {
 
     const [results] = await connection.query('SELECT * FROM usuario WHERE email = ?', [email]);
 
+
     if (results.length === 0) {
       return res.status(401).json({ message: 'Usuario no encontrado' });
     }
@@ -34,8 +35,16 @@ export const loginUser = async (req, res) => {
       sameSite: 'Lax',
       maxAge: 24 * 60 * 60 * 1000
     });
-
-    res.json({ message: 'Login exitoso', token });
+    res.json({
+      message: 'Login exitoso',
+      token,
+      user: {
+        id: user.idusuario,
+        email: user.email,
+        rol: user.rol_idrol,
+        nombre: user.nombre
+      }
+    });
 
   } catch (err) {
     console.error('❌ Error en loginUser:', err);

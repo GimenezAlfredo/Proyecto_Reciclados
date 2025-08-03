@@ -3,11 +3,11 @@ import {
   View, Text, TextInput, TouchableOpacity, StyleSheet,
   SafeAreaView, StatusBar, Alert
 } from 'react-native';
-import { loginUsuario } from '../api/login.js'; 
+import { loginUsuario } from '../../api/login';
 import { useNavigation } from '@react-navigation/native';
+import { saveToken, saveUser  } from '../../auth/auth';
 
-export default function LoginScreen({ route }) {
-  const { municipio } = route.params;
+export default function LoginForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigation = useNavigation();
@@ -18,25 +18,27 @@ export default function LoginScreen({ route }) {
       return;
     }
 
-  try {
-    const response = await loginUsuario(email, password);
-    if (response.ok) {
-      Alert.alert('Bienvenido', response.mensaje);
-      navigation.navigate('HomeScreen'); 
-    } else {
-      Alert.alert('Error', response.mensaje || 'Error desconocido');
-    } } catch (error) {
-    console.error('ERROR GENERAL:', error); // 👈 Error inesperado
-    Alert.alert('Error inesperado', 'Ocurrió un problema al intentar iniciar sesión');
-  }
+    try {
+      const response = await loginUsuario(email, password);
+
+      
+      if (response.ok) {
+        await saveToken(response.token);
+        await saveUser(response.user);
+
+        navigation.replace('RolNavigation'); 
+
+      } else {
+        Alert.alert('Error', response.mensaje);
+      }
+    } catch (error) {
+      console.error('ERROR GENERAL:', error);
+      Alert.alert('Error inesperado', 'Ocurrió un problema al intentar iniciar sesión');
+    }
   };
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar barStyle="dark-content" backgroundColor="#87CEEB" />
-      <Text style={styles.titulo}>Municipio seleccionado:</Text>
-      <Text style={styles.municipio}>{municipio.label}</Text>
-
       <TextInput
         placeholder="Correo electrónico"
         value={email}

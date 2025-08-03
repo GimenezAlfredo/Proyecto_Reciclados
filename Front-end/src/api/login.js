@@ -10,7 +10,8 @@ export const loginUsuario = async (email, password) => {
     return {
       ok: true,
       mensaje: response.data.message,
-      token: response.data.token
+      token: response.data.token,
+      user : response.data.user
     };
   } catch (error) {
     console.error('❌ Error en loginUsuario:', error);

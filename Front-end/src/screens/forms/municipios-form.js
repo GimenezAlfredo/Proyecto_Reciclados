@@ -4,10 +4,10 @@ import {
   SafeAreaView, StatusBar, StyleSheet, Alert
 } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
-import { obtenerMunicipios } from '../api/municipios';
+import { obtenerMunicipios } from '../../api/municipios';
 
-const logo = require('../../assets/logo.png');
-const bgimagen = require('../../assets/posadas.jpeg');
+const logo = require('../../../assets/logo.png');
+const bgimagen = require('../../../assets/posadas.jpeg');
 
 export default function SeleccionMunicipio({ navigation }) {
   const [selectedMunicipio, setSelectedMunicipio] = useState(null);
