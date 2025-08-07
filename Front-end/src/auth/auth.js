@@ -32,5 +32,6 @@ export const getToken = async () => {
 
 export const deleteToken = async () => {
   console.log('Eliminando token');
+  console.log('este token:', TOKEN_KEY);
   await SecureStore.deleteItemAsync(TOKEN_KEY);
 };

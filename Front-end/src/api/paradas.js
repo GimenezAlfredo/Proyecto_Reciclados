@@ -1,11 +1,11 @@
-import axios from 'axios'
+import api from '../auth/axios-instance.js';
 import { prepararGruposParaRutas } from '../utils/agrupador-rutas.js'
-import { API_URL } from '../../ip-config.js'; // ruta relativa según tu estructura
 
 export async function obtenerParadasAgrupadas() {
   try {
-     const { data }  = await axios.get(`${API_URL}/paradas`)
-    const paradasValidas = data
+     const { data }  = await api.get(`/paradas`, {
+    })
+     const paradasValidas = data
       .filter(p =>
         parseFloat(p.latitud) >= -30 && parseFloat(p.latitud) <= -25 &&
         parseFloat(p.longitud) >= -60 && parseFloat(p.longitud) <= -53
@@ -25,7 +25,7 @@ export async function obtenerParadasAgrupadas() {
       const puntos = grupo.map(p => `${p.longitude},${p.latitude}`).join(';')
       const url = `http://router.project-osrm.org/route/v1/driving/${puntos}?overview=full&geometries=geojson`
 
-      const rutaRes = await axios.get(url)
+      const rutaRes = await api.get(url)
       const rutaData = rutaRes.data
 
       if (rutaData.routes && rutaData.routes.length > 0) {

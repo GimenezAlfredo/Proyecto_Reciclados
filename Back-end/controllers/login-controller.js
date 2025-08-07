@@ -29,17 +29,10 @@ export const loginUser = async (req, res) => {
   );
 
 
-    res.cookie('token', token, {
-      httpOnly: true,
-      secure: false,
-      sameSite: 'Lax',
-      maxAge: 24 * 60 * 60 * 1000
-    });
     res.json({
       message: 'Login exitoso',
       token,
       user: {
-        id: user.idusuario,
         email: user.email,
         rol: user.rol_idrol,
         nombre: user.nombre
@@ -52,7 +45,6 @@ export const loginUser = async (req, res) => {
   }
 };
 
-export const logoutUser = (req, res) => {
-  res.clearCookie('token');
-  res.json({ message: 'Logout exitoso' });
-};
+
+
+

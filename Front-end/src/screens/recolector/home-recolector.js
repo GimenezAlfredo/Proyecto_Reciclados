@@ -1,11 +1,39 @@
 import React, { useEffect, useState } from 'react';
 import {
-  View, Text, StyleSheet, ScrollView, TouchableOpacity, Image, SafeAreaView
+  Alert , View, Text, StyleSheet, ScrollView, TouchableOpacity, Image, SafeAreaView
 } from 'react-native';
 import { Ionicons, FontAwesome } from '@expo/vector-icons';
-import { getUser } from '../../auth/auth'; // 🔁 Asegurate de que esta ruta sea correcta
+import { getUser } from '../../auth/auth'; 
+import { useNavigation } from '@react-navigation/native';
+import { deleteUser, deleteToken } from '../../auth/auth';
 
 export default function RecolectorScreen({ navigation }) {
+
+  const logout = useNavigation();
+
+  const handleLogout = () => {
+    Alert.alert(
+      'Cerrar sesión',
+      '¿Estás seguro de que deseas salir?',
+      [
+        { text: 'Cancelar', style: 'cancel' },
+        {
+          text: 'Salir',
+          style: 'destructive',
+          onPress: async () => {
+            await deleteUser();
+            await deleteToken();
+           navigation.reset({
+            index: 0,
+            routes: [{ name: 'Login' }]
+          });
+
+          },
+        },
+      ]
+    );
+  };
+
   const [nombre, setNombre] = useState('');
 
   useEffect(() => {
@@ -15,8 +43,12 @@ export default function RecolectorScreen({ navigation }) {
         setNombre(user.nombre);
         console.log('Usuario autenticado:', user); // 🔍
       } else {
-        console.warn('No se encontró usuario');
-      }
+         console.warn('No se encontró usuario, redirigiendo a Login');
+          navigation.reset({
+            index: 0,
+            routes: [{ name: 'Login' }]
+          });
+        }
     };
 
     cargarUsuario();
@@ -28,12 +60,18 @@ export default function RecolectorScreen({ navigation }) {
         {/* Encabezado */}
         <View style={styles.header}>
           <Text style={styles.logo}>ReciclApp</Text>
-          <Ionicons name="help-circle-outline" size={22} color="green" />
-          <Ionicons name="notifications-outline" size={22} color="white" style={styles.bellIcon} />
+          <View style={styles.iconContainer}>
+        <Ionicons name="help-circle-outline" size={22} color="green" />
+        <Ionicons name="notifications-outline" size={22} color="white" style={styles.bellIcon} />
+        <TouchableOpacity onPress={handleLogout}>
+          <Ionicons name="log-out-outline" size={22} color="red" style={styles.logoutIcon} />
+        </TouchableOpacity>
+      </View>
+
         </View>
 
         {/* Cuerpo scrollable */}
-        <ScrollView contentContainerStyle={styles.body}>
+        <ScrollView contentContainerStyle={[styles.body, { paddingBottom: 20 }]}>
           <Text style={styles.bienvenida}>Bienvenido {nombre || '...'}</Text>
           <Text style={styles.fecha}>Fecha</Text>
 
@@ -74,22 +112,12 @@ export default function RecolectorScreen({ navigation }) {
         </ScrollView>
 
         {/* Footer */}
-        <View style={[styles.footer, { paddingBottom: 10 }]}>
-          <View style={styles.footerItem}>
-            <Ionicons name="home" size={24} color="white" />
-            <Text style={styles.footerTexto}>Home</Text>
-          </View>
-          <View style={styles.footerItem}>
-            <Ionicons name="refresh" size={24} color="white" />
-          </View>
-          <View style={styles.footerItem}>
-            <FontAwesome name="user" size={24} color="white" />
-            <Text style={styles.footerTexto}>Perfil</Text>
-          </View>
-        </View>
+
       </View>
     </SafeAreaView>
   );
+
+  
 }
 
 
@@ -100,15 +128,16 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    paddingBottom: 70
   },
-  header: {
-    flexDirection: 'row',
-    backgroundColor: '#FFD700',
-    padding: 15,
-    alignItems: 'center',
-    justifyContent: 'space-between'
-  },
+    header: {
+      flexDirection: 'row',
+      backgroundColor: '#FFD700',
+      paddingTop: 40,        
+      paddingBottom: 20,      
+      paddingHorizontal: 20, 
+      alignItems: 'center',
+      justifyContent: 'space-between',
+    },
   logo: {
     fontSize: 20,
     fontWeight: 'bold',
@@ -185,22 +214,13 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-end',
     marginTop: 5
   },
-  footer: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
+  iconContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
-    backgroundColor: '#FFD700',
-    paddingVertical: 10
+    alignItems: 'center',
+    gap: 12,
   },
-  footerItem: {
-    alignItems: 'center'
-  },
-  footerTexto: {
-    fontSize: 12,
-    color: 'white',
-    marginTop: 2
+  logoutIcon: {
+    marginLeft: 10,
   }
+
 });

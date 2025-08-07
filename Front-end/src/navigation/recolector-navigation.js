@@ -9,9 +9,10 @@ const Tab = createBottomTabNavigator();
 
 export default function RecolectorNavigation() {
   return (
-    <Tab.Navigator
+    <Tab.Navigator 
       initialRouteName="HomeRecolector"
       screenOptions={({ route }) => ({
+        headerShown: false,
         tabBarIcon: ({ color, size }) => {
           let iconName;
 

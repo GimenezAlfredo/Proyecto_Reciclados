@@ -1,11 +1,11 @@
 import express from 'express';
-import { loginUser, logoutUser } from '../controllers/login-controller.js';
+import { loginUser } from '../controllers/login-controller.js';
 import { validateLogin } from '../middlewares/validate-login.js';
 import { verifyToken } from '../middlewares/verify-token.js';
 const router = express.Router();
 
 router.post('/login', validateLogin, loginUser);
-router.post('/logout', logoutUser);
+// router.post('/logout', logoutUser);
 
 // Ruta protegida
 router.get('/perfil', verifyToken, (req, res) => {
