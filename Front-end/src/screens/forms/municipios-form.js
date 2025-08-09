@@ -4,7 +4,7 @@ import {
   SafeAreaView, StatusBar, StyleSheet, Alert
 } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
-import { obtenerMunicipios } from '../../api/municipios';
+import { obtenerMunicipios } from '../../api/services/municipios-service';
 
 const logo = require('../../../assets/logo.png');
 const bgimagen = require('../../../assets/posadas.jpeg');

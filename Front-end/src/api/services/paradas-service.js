@@ -1,9 +1,9 @@
-import api from '../auth/axios-instance.js';
-import { prepararGruposParaRutas } from '../utils/agrupador-rutas.js'
+import apiPrivate from '../clients/api-private.js';
+import { prepararGruposParaRutas } from '../../utils/agrupador-rutas.js'
 
 export async function obtenerParadasAgrupadas() {
   try {
-     const { data }  = await api.get(`/paradas`, {
+     const { data }  = await apiPrivate.get('/paradas', {
     })
      const paradasValidas = data
       .filter(p =>
@@ -25,7 +25,7 @@ export async function obtenerParadasAgrupadas() {
       const puntos = grupo.map(p => `${p.longitude},${p.latitude}`).join(';')
       const url = `http://router.project-osrm.org/route/v1/driving/${puntos}?overview=full&geometries=geojson`
 
-      const rutaRes = await api.get(url)
+      const rutaRes = await apiPrivate.get(url)
       const rutaData = rutaRes.data
 
       if (rutaData.routes && rutaData.routes.length > 0) {

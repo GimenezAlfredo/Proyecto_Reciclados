@@ -1,9 +1,8 @@
-import axios from 'axios';
-import { API_URL } from '../../ip-config.js'; // ruta relativa según tu estructura
+import apiPublic from '../clients/api-public';
 
 export const loginUsuario = async (email, password) => {
   try {
-    const response = await axios.post(`${API_URL}/user/login`, { email, password }, {
+    const response = await apiPublic.post('/user/login', { email, password }, {
       withCredentials: true
     });
 

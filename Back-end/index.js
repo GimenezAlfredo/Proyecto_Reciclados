@@ -12,7 +12,7 @@ const app = express()
 
 //cors bien configurado
 app.use(cors({
-  origin: 'http://localhost:5173',
+  origin: 'http://localhost:5173', //luego cambiar a HTTPS y el nombre del dominio 'https://midominio.com',
   credentials: true
 }));
 

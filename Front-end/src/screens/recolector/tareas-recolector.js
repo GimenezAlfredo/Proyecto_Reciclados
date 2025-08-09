@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { View, ScrollView, StyleSheet, Text, TouchableOpacity } from 'react-native'
-import { obtenerParadasAgrupadas } from '../../api/paradas.js'
+import { obtenerParadasAgrupadas } from '../../api/services/paradas-service.js'
 import MapaRutas from '../../components/mapa-rutas.js'
 import { ExpiracionToken } from '../../utils/expired-util.js'
 

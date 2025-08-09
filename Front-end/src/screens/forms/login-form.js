@@ -3,7 +3,7 @@ import {
   View, Text, TextInput, TouchableOpacity, StyleSheet,
   SafeAreaView, StatusBar, Alert
 } from 'react-native';
-import { loginUsuario } from '../../api/login';
+import { loginUsuario } from '../../api/services/login-service';
 import { useNavigation } from '@react-navigation/native';
 import { saveToken, saveUser  } from '../../auth/auth';
 

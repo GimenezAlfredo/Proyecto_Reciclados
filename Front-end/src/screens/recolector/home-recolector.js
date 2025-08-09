@@ -3,9 +3,8 @@ import {
   Alert , View, Text, StyleSheet, ScrollView, TouchableOpacity, Image, SafeAreaView
 } from 'react-native';
 import { Ionicons, FontAwesome } from '@expo/vector-icons';
-import { getUser } from '../../auth/auth'; 
 import { useNavigation } from '@react-navigation/native';
-import { deleteUser, deleteToken } from '../../auth/auth';
+import { getUser, deleteUser, deleteToken } from '../../auth/auth';
 
 export default function RecolectorScreen({ navigation }) {
 
