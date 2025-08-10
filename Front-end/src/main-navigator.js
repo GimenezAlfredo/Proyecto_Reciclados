@@ -1,7 +1,7 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import HomeScreen from './screens/home-screen'; // TU PANTALLA DE INICIO
+import HomeScreen from './screens/home-screen';
 import LoginForm from './screens/forms/login-form';
 // import RegisterForm from './screens/forms/register-form';
 import RolNavigation from './navigation/rol-navigation';

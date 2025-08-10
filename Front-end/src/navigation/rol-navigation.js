@@ -12,7 +12,6 @@ export default function RolNavigation() {
   useEffect(() => {
     const verificarRol = async () => {
       const user = await getUser();
-      console.log({user})
       if (user && user.rol !== undefined) {
         setRol(user.rol);
       }

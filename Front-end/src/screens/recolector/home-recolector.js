@@ -1,56 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import {
-  Alert , View, Text, StyleSheet, ScrollView, TouchableOpacity, Image, SafeAreaView
-} from 'react-native';
-import { Ionicons, FontAwesome } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
-import { getUser, deleteUser, deleteToken } from '../../auth/auth';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image, SafeAreaView} from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+import {handleLogout} from '../../utils/logout-util'
+import { userName } from '../../utils/username-util';
 
 export default function RecolectorScreen({ navigation }) {
-
-  const logout = useNavigation();
-
-  const handleLogout = () => {
-    Alert.alert(
-      'Cerrar sesión',
-      '¿Estás seguro de que deseas salir?',
-      [
-        { text: 'Cancelar', style: 'cancel' },
-        {
-          text: 'Salir',
-          style: 'destructive',
-          onPress: async () => {
-            await deleteUser();
-            await deleteToken();
-           navigation.reset({
-            index: 0,
-            routes: [{ name: 'Login' }]
-          });
-
-          },
-        },
-      ]
-    );
-  };
-
   const [nombre, setNombre] = useState('');
 
-  useEffect(() => {
-    const cargarUsuario = async () => {
-      const user = await getUser();
-      if (user && user.nombre) {
-        setNombre(user.nombre);
-        console.log('Usuario autenticado:', user); // 🔍
-      } else {
-         console.warn('No se encontró usuario, redirigiendo a Login');
-          navigation.reset({
-            index: 0,
-            routes: [{ name: 'Login' }]
-          });
-        }
-    };
-
-    cargarUsuario();
+   useEffect(() => {
+    userName(setNombre);
   }, []);
 
   return (

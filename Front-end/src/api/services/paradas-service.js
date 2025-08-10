@@ -41,7 +41,6 @@ export async function obtenerParadasAgrupadas() {
     return rutas
 
   } catch (error) {
-    console.error('Error al obtener rutas:', error.message)
-    return []
+    throw error;
   }
 }

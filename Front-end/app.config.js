@@ -2,8 +2,8 @@ import 'dotenv/config';
 
 export default {
   expo: {
-    name: "MiApp",
-    slug: "miapp",
+    name: "Reciclap",
+    slug: "reciclap",
     extra: {
       apiUrl: process.env.API_URL
     }

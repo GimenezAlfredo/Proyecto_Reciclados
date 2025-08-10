@@ -24,7 +24,7 @@ apiPrivate.interceptors.response.use(
   (response) => response,
   async (error) => {
     if (error.response?.status === 403) {
-      console.warn('Token expirado o inválido');
+      console.error('Token expirado o inválido');
       await LimpiarSesion(); 
     }
     return Promise.reject(error);

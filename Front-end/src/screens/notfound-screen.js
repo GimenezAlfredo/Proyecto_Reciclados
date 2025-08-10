@@ -1,1 +1,1 @@
-console.log("holis");
+console.log("pantalla notfound sin funcion");

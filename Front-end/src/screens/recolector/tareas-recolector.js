@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 import { View, ScrollView, StyleSheet, Text, TouchableOpacity } from 'react-native'
 import { obtenerParadasAgrupadas } from '../../api/services/paradas-service.js'
 import MapaRutas from '../../components/mapa-rutas.js'
-import { ExpiracionToken } from '../../utils/expired-util.js'
 
 export default function TareasRecolector() {
   const [rutas, setRutas] = useState([])
@@ -14,11 +13,7 @@ export default function TareasRecolector() {
         const rutasObtenidas = await obtenerParadasAgrupadas()
         setRutas(rutasObtenidas)
       } catch (error) {
-        console.log('antes de exìracion')
-        const fueExpiracion = await ExpiracionToken(error, navigation)
-        if (!fueExpiracion) {
-          console.error('Error al obtener rutas:', error)
-        }
+        console.warn('Error al obtener rutas:', error)
       }
     }
     cargarRutas()
