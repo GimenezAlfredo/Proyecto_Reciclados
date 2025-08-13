@@ -37,7 +37,7 @@ export default function RecolectorScreen({ navigation }) {
             <View key={item} style={styles.card}>
               <Text style={styles.cardTexto}>10 paradas, tiempo estimado 30m</Text>
               <TouchableOpacity style={styles.botonVerRuta}>
-                <Text style={styles.botonTexto}>Ver ruta</Text>
+                <Text style={styles.botonTexto}>Comenzar</Text>
               </TouchableOpacity>
             </View>
           ))}
@@ -68,7 +68,6 @@ export default function RecolectorScreen({ navigation }) {
           </TouchableOpacity>
         </ScrollView>
 
-        {/* Footer */}
 
       </View>
     </SafeAreaView>

@@ -1,20 +1,79 @@
 import React from 'react';
-import { View, Text, Button, StyleSheet } from 'react-native';
+import { View, Text, Button, StyleSheet, ImageBackground } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 export default function HomeScreen() {
   const navigation = useNavigation();
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Bienvenido a la App de Reciclaje</Text>
-      <Button title="Iniciar sesión" onPress={() => navigation.navigate('Login')} />
-      <Button title="Registrarse" onPress={() => navigation.navigate('Register')} />
+    <ImageBackground
+  source={require('../../assets/posadas.jpeg')} 
+  style={styles.background}
+  resizeMode="cover"
+>
+  <View style={styles.overlay}>
+    <View style={styles.logoWrapper}>
+      <Text style={styles.logoMain}>PROYECTO</Text>
+      <View style={styles.logoBox}>
+        <Text style={styles.logoSub}>RECICLAPP</Text>
+      </View>
+
+      <View style={styles.buttonContainer}>
+        <Button
+          title="Iniciar sesión"
+          onPress={() => navigation.navigate('Login')}
+          color="#4CAF50"
+        />
+      </View>
+      
+      <View style={styles.buttonContainer}>
+        <Button
+          title="Registrarse"
+          onPress={() => navigation.navigate('Register')}
+          color="#2196F3"
+        />
+      </View>
     </View>
+  </View>
+</ImageBackground>
+
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, justifyContent: 'center', alignItems: 'center' },
-  title: { fontSize: 24, marginBottom: 20 },
+  background: {
+    flex: 1,
+  },
+  overlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.4)',
+  },
+  logoWrapper: {
+    flex: 1, 
+    justifyContent: 'center', 
+    alignItems: 'center', 
+  },
+  logoMain: {
+    fontSize: 36,
+    fontWeight: 'bold',
+    color: '#1B2A41', 
+    letterSpacing: 2,
+  },
+  logoBox: {
+    backgroundColor: '#1B2A41', 
+    paddingHorizontal: 15,
+    paddingVertical: 5,
+    borderRadius: 5,
+    marginTop: 4,
+  },
+  logoSub: {
+    fontSize: 18,
+    color: '#E8E4C9',
+    letterSpacing: 3,
+    fontWeight: '500',
+  },
+  buttonContainer: {
+    width: '80%',
+    marginVertical: 10,
+  },
 });
