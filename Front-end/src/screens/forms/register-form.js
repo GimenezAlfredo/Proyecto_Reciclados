@@ -1,1 +1,0 @@
-console.log("debera pedir municipio en parametros");

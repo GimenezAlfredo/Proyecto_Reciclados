@@ -1,1 +1,0 @@
-al finalizar la recolector que aparezca esta ventana para detallar lo recolectado y demás.
