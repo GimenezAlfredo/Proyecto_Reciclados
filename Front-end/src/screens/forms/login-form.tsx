@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import { loginUsuario } from '../../api/services/login-service';
 import { saveToken, saveUser } from '../../auth/auth';
-import { navigate } from '../../navigation/refglobal-navigation'; // <-- usamos el ref global
+import { navigate } from '../../navigation/refglobal-navigation'; 
 
 const LoginForm: React.FC = () => {
   const [email, setEmail] = useState<string>('');

@@ -4,7 +4,7 @@ import { getUser } from "../auth/auth";
 import AdminNavigation from "./admin-navigation";
 import UsuarioNavigation from "./usuario-navigation";
 import UsuarioPremiunNavigation from "./usuario-premiun-navigation";
-import NotFoundScreen from "../screens/notfound-screen.js";
+import NotFoundScreen from "../screens/notfound-screen";
 
 interface User {
   rol?: number;
