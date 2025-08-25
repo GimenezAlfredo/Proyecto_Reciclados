@@ -1,13 +1,20 @@
-import React, { useRef } from 'react'
-import MapView, { Marker, Polyline } from 'react-native-maps'
-import { StyleSheet } from 'react-native'
+// src/components/mapa-rutas.tsx
+import React, { useRef } from "react";
+import MapView, { Marker, Polyline, MapViewProps } from "react-native-maps";
+import { StyleSheet } from "react-native";
+import { RutaCalculada } from "../api/services/paradas-service"; // ajustá la ruta según tu proyecto
 
-export default function MapaRutas({ rutas, rutaSeleccionada }) {
-  const mapRef = useRef(null)
+interface MapaRutasProps {
+  rutas: RutaCalculada[];
+  rutaSeleccionada: number | null;
+}
 
-  if (rutaSeleccionada === null || !rutas[rutaSeleccionada]) return null
+export default function MapaRutas({ rutas, rutaSeleccionada }: MapaRutasProps) {
+  const mapRef = useRef<MapView | null>(null);
 
-  const ruta = rutas[rutaSeleccionada]
+  if (rutaSeleccionada === null || !rutas[rutaSeleccionada]) return null;
+
+  const ruta = rutas[rutaSeleccionada];
 
   return (
     <MapView
@@ -37,11 +44,11 @@ export default function MapaRutas({ rutas, rutaSeleccionada }) {
         strokeWidth={4}
       />
     </MapView>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
   map: {
     flex: 1,
   },
-})
+});

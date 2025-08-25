@@ -1,15 +1,34 @@
 import React, { useState, useEffect } from 'react';
-import { SafeAreaView, View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { SafeAreaView, View, ScrollView, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { handleLogout } from '../../utils/logout-util';
+import { obtenerParadasAgrupadas, RutaCalculada } from '../../api/services/paradas-service';
+import MapaRutas from '../../components/mapa-rutas';
 
 const HomeAdmin: React.FC = () => {
   const [nombre, setNombre] = useState('Admin');
+  const [rutas, setRutas] = useState<RutaCalculada[]>([]);
+  const [rutaSeleccionada, setRutaSeleccionada] = useState<number | null>(null);
 
   useEffect(() => {
-    // Si quieres, aquí podrías obtener el nombre real del admin desde auth
-    setNombre('Admin');
+    setNombre('Admin'); 
   }, []);
+
+  useEffect(() => {
+    const cargarRutas = async () => {
+      try {
+        const rutasObtenidas = await obtenerParadasAgrupadas();
+        setRutas(rutasObtenidas);
+      } catch (error) {
+        console.warn('Error al obtener rutas:', error);
+      }
+    };
+    cargarRutas();
+  }, []);
+
+  const seleccionarRuta = (index: number) => {
+    setRutaSeleccionada(index);
+  };
 
   return (
     <SafeAreaView style={styles.safeContainer}>
@@ -26,6 +45,32 @@ const HomeAdmin: React.FC = () => {
       {/* Cuerpo */}
       <View style={styles.body}>
         <Text style={styles.bienvenida}>{`Hola ${nombre}`}</Text>
+
+        {/* Selector de rutas */}
+        <ScrollView style={styles.selector}>
+          {rutas.map((_, i) => (
+            <View
+              key={i}
+              style={[
+                styles.botonContenedor,
+                { backgroundColor: i % 2 === 0 ? '#ffffff' : '#f0f0f0' },
+              ]}
+            >
+              <Text style={styles.textoBoton}>Tiempo y Paradas</Text>
+              <TouchableOpacity
+                style={styles.verRutaBoton}
+                onPress={() => seleccionarRuta(i)}
+              >
+                <Text style={{ color: '#fff', fontWeight: 'bold' }}>Ver ruta</Text>
+              </TouchableOpacity>
+            </View>
+          ))}
+        </ScrollView>
+
+        {/* Mapa de rutas */}
+        <View style={styles.mapaContenedor}>
+          <MapaRutas rutas={rutas} rutaSeleccionada={rutaSeleccionada} />
+        </View>
       </View>
     </SafeAreaView>
   );
@@ -61,12 +106,41 @@ const styles = StyleSheet.create({
   },
   body: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    paddingHorizontal: 10,
   },
   bienvenida: {
     fontSize: 24,
     fontWeight: 'bold',
     color: '#333',
+    marginBottom: 15,
+  },
+  selector: {
+    maxHeight: 150,
+    marginBottom: 10,
+  },
+  botonContenedor: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingVertical: 15,
+    paddingHorizontal: 20,
+    marginBottom: 5,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#ccc',
+  },
+  textoBoton: {
+    color: '#333',
+    fontWeight: 'bold',
+  },
+  verRutaBoton: {
+    backgroundColor: '#4CAF50',
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    borderRadius: 5,
+  },
+  mapaContenedor: {
+    flex: 1,
+    overflow: 'hidden',
   },
 });

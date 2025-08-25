@@ -3,6 +3,7 @@ import cors from 'cors'
 import dotenv from 'dotenv'
 import cookieParser from 'cookie-parser'
 import loginRoutes from './routes/login-routes.js';
+import paradasRoutes from './routes/paradas-routes.js';
 
 dotenv.config()
 
@@ -18,6 +19,7 @@ app.use(express.json())
 app.use(cookieParser())
 
 app.use('/api/user', loginRoutes)
+app.use('/api/paradas', paradasRoutes)
 
 
 const PORT = Number(process.env.PORT) || 3000;
