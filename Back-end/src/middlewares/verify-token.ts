@@ -1,18 +1,13 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 
-// Creamos una interfaz para agregar la propiedad user al Request??
-interface AuthenticatedRequest extends Request {
-  user?: string | JwtPayload;
-}
-
 export const verifyToken = (
-  req: AuthenticatedRequest,
+  req: Request,
   res: Response,
   next: NextFunction
 ) => {
   const authHeader = req.headers['authorization'];
-  const token = authHeader && authHeader.split(' ')[1]; 
+  const token = authHeader && authHeader.split(' ')[1];
 
   if (!token) {
     return res.status(401).json({ message: 'No autenticado. Token no encontrado.' });
@@ -23,7 +18,9 @@ export const verifyToken = (
       return res.status(403).json({ message: 'Token inválido o expirado.' });
     }
 
-    req.user = decoded; // aquí decoded ya tiene tipo JwtPayload | string
+    // Aseguramos que decoded sea un objeto
+    req.user = decoded as JwtPayload & { id: number };
+
     next();
   });
 };
