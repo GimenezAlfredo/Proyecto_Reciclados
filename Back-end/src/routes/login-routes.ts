@@ -17,12 +17,12 @@ interface AuthenticatedRequest extends Request {
 router.post('/login', validateLogin, loginUser);
 // router.post('/logout', logoutUser);
 
-// Ruta protegida
-router.get('/perfil', verifyToken, (req: AuthenticatedRequest, res: Response) => {
-  res.json({
-    message: 'Bienvenido al perfil privado',
-    usuario: req.user // id y email del token
-  });
-});
+// // Ruta protegida
+// router.get('/perfil', verifyToken, (req: AuthenticatedRequest, res: Response) => {
+//   res.json({
+//     message: 'Bienvenido al perfil privado',
+//     usuario: req.user // id y email del token
+//   });
+// });
 
 export default router;

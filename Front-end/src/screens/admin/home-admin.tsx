@@ -1,18 +1,23 @@
 import React, { useState, useEffect } from 'react';
-import { SafeAreaView, View, ScrollView, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { SafeAreaView, View, Text, TouchableOpacity, StyleSheet, ScrollView, FlatList } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { handleLogout } from '../../utils/logout-util';
+import { useNavigation } from '@react-navigation/native';
 import { obtenerParadasAgrupadas, RutaCalculada } from '../../api/services/paradas-service';
-import MapaRutas from '../../components/mapa-rutas';
+import CrudOpciones from "./crud-admin"; 
+
 
 const HomeAdmin: React.FC = () => {
-  const [nombre, setNombre] = useState('Admin');
   const [rutas, setRutas] = useState<RutaCalculada[]>([]);
-  const [rutaSeleccionada, setRutaSeleccionada] = useState<number | null>(null);
+  const [menuVisible, setMenuVisible] = useState(false);
 
-  useEffect(() => {
-    setNombre('Admin'); 
-  }, []);
+  const [reciclaje] = useState([
+    { id: 1, fecha: 'Hoy, 9:45 AM', detalle: '50kg plástico' },
+    { id: 2, fecha: 'Ayer, 2:14 PM', detalle: '120kg cartón' },
+    { id: 3, fecha: 'Viernes, 8:30 AM', detalle: '~320kg vidrio' },
+  ]);
+
+  const navigation = useNavigation<any>();
 
   useEffect(() => {
     const cargarRutas = async () => {
@@ -26,52 +31,74 @@ const HomeAdmin: React.FC = () => {
     cargarRutas();
   }, []);
 
-  const seleccionarRuta = (index: number) => {
-    setRutaSeleccionada(index);
-  };
-
   return (
     <SafeAreaView style={styles.safeContainer}>
-      {/* Encabezado */}
+       {/* Header */}
       <View style={styles.header}>
-        <Text style={styles.logo}>AdminApp</Text>
-        <View style={styles.iconContainer}>
+        <Text style={styles.logo}>ReciclApp - Admin</Text>
+        <View style={{ flexDirection: "row", gap: 10 }}>
+          {/* Logout */}
           <TouchableOpacity onPress={handleLogout}>
-            <Ionicons name="log-out-outline" size={24} color="black" style={styles.logoutIcon} />
+            <Ionicons name="log-out-outline" size={24} color="black" />
+          </TouchableOpacity>
+
+          {/* Menú */}
+          <TouchableOpacity onPress={() => setMenuVisible(true)}>
+            <Ionicons name="menu" size={28} color="black" />
           </TouchableOpacity>
         </View>
       </View>
 
-      {/* Cuerpo */}
-      <View style={styles.body}>
-        <Text style={styles.bienvenida}>{`Hola ${nombre}`}</Text>
+      {/* Modal menú */}
+      <CrudOpciones visible={menuVisible} onClose={() => setMenuVisible(false)} />
 
-        {/* Selector de rutas */}
-        <ScrollView style={styles.selector}>
-          {rutas.map((_, i) => (
-            <View
-              key={i}
-              style={[
-                styles.botonContenedor,
-                { backgroundColor: i % 2 === 0 ? '#ffffff' : '#f0f0f0' },
-              ]}
-            >
-              <Text style={styles.textoBoton}>Tiempo y Paradas</Text>
+      {/* Bienvenida */}
+      <View style={styles.bienvenidaContainer}>
+        <Text style={styles.bienvenida}>Bienvenido Richi </Text>
+        <Text style={styles.fecha}> (25/08/2025) </Text>
+      </View>
+
+      <ScrollView>
+        {/* Asignar pedidos */}
+        <View style={styles.card}>
+          <Text style={styles.sectionTitle}>Asignar Pedidos</Text>
+          {rutas.map((ruta, index) => (
+            <View key={index} style={styles.item}>
+              <Text style={styles.numero}>{index + 1}</Text>
+              <Text style={styles.info}>TIEMPO Y PARADAS</Text>
               <TouchableOpacity
-                style={styles.verRutaBoton}
-                onPress={() => seleccionarRuta(i)}
+                style={styles.botonVer}
+                onPress={() => navigation.navigate('AsignarRuta', { rutaSeleccionada: index })}
               >
-                <Text style={{ color: '#fff', fontWeight: 'bold' }}>Ver ruta</Text>
+                <Text style={styles.botonTexto}>Ver ruta</Text>
               </TouchableOpacity>
             </View>
           ))}
-        </ScrollView>
-
-        {/* Mapa de rutas */}
-        <View style={styles.mapaContenedor}>
-          <MapaRutas rutas={rutas} rutaSeleccionada={rutaSeleccionada} />
+          <TouchableOpacity
+            style={styles.btnSecundario}
+            onPress={() => navigation.navigate("PedidosAsignadosAdmin")}
+          >
+            <Text style={styles.btnSecundarioText}>Ver asignados</Text>
+          </TouchableOpacity>
         </View>
-      </View>
+
+        {/* Reciclaje semanal */}
+        <View style={styles.card}>
+          <Text style={styles.sectionTitle}>Reciclaje Semanal</Text>
+          {reciclaje.map((item) => (
+            <View key={item.id} style={styles.reciclajeRow}>
+              <Ionicons name="leaf-outline" size={22} color="green" />
+              <Text style={styles.reciclajeText}>
+                {item.fecha}  {item.detalle}
+              </Text>
+            </View>
+          ))}
+          <TouchableOpacity style={styles.btnSecundario}>
+            <Text style={styles.btnSecundarioText}>Ver movimientos</Text>
+          </TouchableOpacity>
+        </View>
+
+      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -79,68 +106,69 @@ const HomeAdmin: React.FC = () => {
 export default HomeAdmin;
 
 const styles = StyleSheet.create({
-  safeContainer: {
-    flex: 1,
-    backgroundColor: '#fff',
-  },
+  safeContainer: { flex: 1, backgroundColor: '#fff' },
+
   header: {
     flexDirection: 'row',
     backgroundColor: '#FFD700',
     paddingTop: 40,
     paddingBottom: 15,
     paddingHorizontal: 20,
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  logo: {
-    fontSize: 22,
-    fontWeight: 'bold',
-    color: '#fff',
-  },
-  iconContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  logoutIcon: {
-    marginLeft: 5,
-  },
-  body: {
-    flex: 1,
-    paddingHorizontal: 10,
-  },
-  bienvenida: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#333',
-    marginBottom: 15,
-  },
-  selector: {
-    maxHeight: 150,
-    marginBottom: 10,
-  },
-  botonContenedor: {
-    flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingVertical: 15,
-    paddingHorizontal: 20,
-    marginBottom: 5,
+  },
+  logo: { fontSize: 20, fontWeight: 'bold', color: '#fff' },
+  headerIcons: { flexDirection: 'row', gap: 15 },
+
+  bienvenidaContainer: { padding: 15 },
+  bienvenida: { fontSize: 18, fontWeight: 'bold' },
+  fecha: { fontSize: 14, color: 'gray' },
+
+  card: {
+    backgroundColor: '#eee',
+    marginHorizontal: 15,
+    marginVertical: 10,
+    padding: 15,
     borderRadius: 10,
-    borderWidth: 1,
-    borderColor: '#ccc',
   },
-  textoBoton: {
-    color: '#333',
-    fontWeight: 'bold',
+  sectionTitle: { fontSize: 16, fontWeight: 'bold', marginBottom: 10 },
+
+  item: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#fff',
+    padding: 10,
+    marginBottom: 8,
+    borderRadius: 8,
   },
-  verRutaBoton: {
-    backgroundColor: '#4CAF50',
-    paddingVertical: 8,
+  numero: { fontSize: 18, fontWeight: 'bold', marginRight: 15, color: 'green' },
+  info: { flex: 1, fontSize: 14, fontWeight: 'bold', textAlign: 'center' },
+  botonVer: {
+    backgroundColor: 'green',
+    paddingVertical: 6,
     paddingHorizontal: 12,
     borderRadius: 5,
   },
-  mapaContenedor: {
-    flex: 1,
-    overflow: 'hidden',
+  botonTexto: { color: '#fff', fontWeight: 'bold' },
+
+  btnSecundario: {
+    alignSelf: 'flex-end',
+    borderWidth: 1,
+    borderColor: 'green',
+    paddingVertical: 6,
+    paddingHorizontal: 12,
+    borderRadius: 6,
+    marginTop: 10,
   },
+  btnSecundarioText: { color: 'green', fontWeight: 'bold' },
+
+  reciclajeRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#fff',
+    marginBottom: 8,
+    padding: 8,
+    borderRadius: 8,
+  },
+  reciclajeText: { marginLeft: 10, fontSize: 14 },
 });
