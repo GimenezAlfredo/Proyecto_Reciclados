@@ -16,7 +16,7 @@ export interface PedidoPendiente extends RowDataPacket {
 
 
 export const obtenerParadasDB = async (): Promise<PedidoPendiente[]> => {
-  const [rows] = await connection.query<PedidoPendiente[]>(`
+    const [rows] = await connection.query<PedidoPendiente[]>(`
     SELECT 
       p.idpedidos,
       p.id_direccion,
@@ -30,7 +30,6 @@ export const obtenerParadasDB = async (): Promise<PedidoPendiente[]> => {
     FROM pedidos p
     INNER JOIN direcciones d ON p.id_direccion = d.iddirecciones
     WHERE p.estado = 0
-    GROUP BY p.idpedidos
   `);
 
   return rows;
