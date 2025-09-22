@@ -9,6 +9,7 @@ export type LoginResponse = {
     id: number;
     nombre: string;
     email: string;
+    rol?: number; // opcional, si tu backend lo devuelve
   };
 };
 
@@ -32,10 +33,13 @@ export const loginUsuario = async (
   password: string
 ): Promise<LoginResult> => {
   try {
+    // 🔹 quitamos withCredentials porque no se usan cookies en RN
     const response = await apiPublic.post<LoginResponse>(
       "/user/login",
-      { email, password },
-      { withCredentials: true }
+      {
+        email,
+        password: String(password), // aseguramos que siempre vaya como string
+      }
     );
 
     return {
@@ -45,14 +49,13 @@ export const loginUsuario = async (
       user: response.data.user,
     };
   } catch (err: unknown) {
-    console.error("❌Error en login:", err);
+    console.error("❌ Error en login:", err);
 
-    // Usamos AxiosError para tipar mejor
     const error = err as AxiosError<{ message?: string }>;
 
     return {
       ok: false,
-      mensaje: error.response?.data?.message || "Error desconocido",
+      mensaje: error.response?.data?.message || "Error desconocido en el servidor",
     };
   }
 };
